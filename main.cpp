@@ -1,14 +1,19 @@
 #include "schunk.h"
+#include "iostream"
 
 int main(int argc, char **argv)
 {
-  schunk::SerialConnection serial(0x0B, 0, 9600);
+  schunk::Module module(0x0B, 0, 9600, 5.0);
+  float position;
 
-    if(serial.open()){
-      printf("unable to open serial port to motor\n");
-    return 1;
-  }
+  std::cout << module.get_pos(position) << std::endl;
+  std::cout << position << std::endl;
 
-  serial.close();
-  return 0;
+  std::cout << module.move_pos(90.0, 40.0, true) << std::endl;
+  std::cout << module.get_pos(position) << std::endl;
+  std::cout << position << std::endl;
+
+  std::cout << module.move_pos(45, 40.0, false) << std::endl;
+  std::cout << module.get_pos(position) << std::endl;
+  std::cout << position << std::endl;
 }

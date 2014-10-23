@@ -1,9 +1,9 @@
 
 
 CC = g++
-CFLAGS = -O3 -Wall
+CFLAGS = -O3 -Wall -std=c++0x
 LIBPATH =
-LDFLAGS = -static
+LDFLAGS =
 
 OFILES = main.o rs232.o
 
