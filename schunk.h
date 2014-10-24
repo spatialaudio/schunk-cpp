@@ -109,12 +109,27 @@ class Module
       pack<float>(data, position);
       return _cmd_message(0xB0, data, response, blocking);
     }
+
     bool move_pos(float position, float velocity, bool blocking = false)
     {
       std::string data, response;
       pack<float>(data, position);
       pack<float>(data, velocity);
       return _cmd_message(0xB0, data, response, blocking);
+    }
+
+    bool move_pos_rel(float position, bool blocking = false)
+    {
+      std::string data, response;
+      pack<float>(data, position);
+      return _cmd_message(0xB8, data, response, blocking);
+    }
+
+    bool move_pos_rel(float position, float velocity, bool blocking = false)
+    {
+      std::string data, response;
+      pack<float>(data, position);
+      return _cmd_message(0xB8, data, response, blocking);
     }
 
     bool get_pos(float &position)
