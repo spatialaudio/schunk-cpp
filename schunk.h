@@ -7,8 +7,6 @@
 #include <iostream>
 #include <vector>
 #include <cstdint>
-#include <chrono>  // for std::chrono::seconds
-#include <thread>  // for std::this_thread::sleep_for
 
 namespace schunk
 {
@@ -303,7 +301,7 @@ class Module
           return false;
         }
         received += RS232_PollComport(_port, current, exspected - received);
-        std::this_thread::sleep_for ( std::chrono::milliseconds(100) );
+        usleep(100);
       }
       return true;
     }
