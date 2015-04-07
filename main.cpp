@@ -9,6 +9,13 @@ int main(int argc, char **argv)
   std::cout << module.get_pos(position) << std::endl;
   std::cout << position << std::endl;
 
+  bool tmp;
+  module.toggle_impulse_message(tmp);
+  if ( !tmp )
+  {
+    module.toggle_impulse_message(tmp);
+  }
+
   std::cout << module.move_pos(270.0, 40.0, true) << std::endl;
   std::cout << module.get_pos(position) << std::endl;
   std::cout << position << std::endl;

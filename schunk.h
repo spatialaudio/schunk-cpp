@@ -94,12 +94,7 @@ class Module
       , _baudrate(baudrate)
       , _port(port)
       , _timeout(timeout)
-    {
-      _enable_blocking = false;
-      if ( !toggle_impulse_message(_enable_blocking) ) return;
-      if ( _enable_blocking ) return;
-      toggle_impulse_message(_enable_blocking);
-    }
+    {}
 
     bool move_pos(float position, bool blocking = false)
     {
@@ -161,7 +156,7 @@ class Module
       , const std::string &data
       , std::string &response
       , bool blocking
-      , const unsigned int expected_length = -1
+      , const int expected_length = -1
       , const std::string expected_str = "")
     {
       if ( !_open() ) return false;
@@ -178,9 +173,13 @@ class Module
         return false;
       }
 
-      if ( blocking && _enable_blocking )
+      if ( blocking )
       {
-        if ( !_receive(response) ) { _close(); return false; }
+        if ( !_receive(response) )
+        {
+          _close();
+          return false;
+        }
         if ( !_check_response(response, 0x94, 4) )
         {
           _close();
@@ -242,20 +241,21 @@ class Module
 
       if ( header[0] != 0x03 && header[0] != 0x07 )
       {
-          std::cout << "ERROR: Unexpected message type received" << std::endl;
-          return false;
+        std::cout << "ERROR: Unexpected message type received" << std::endl;
+        return false;
       }
 
       if (header[1] != _module_id)
       {
-          std::cout << "ERROR: module id missmatch in received message" << std::endl;
-          return false;
+        std::cout << "ERROR: module id missmatch in received message" <<
+          std::endl;
+        return false;
       }
 
       if (header[2] < 2)
       {
-          std::cout << "ERROR: Received payload length too short" << std::endl;
-          return false;
+        std::cout << "ERROR: Received payload length too short" << std::endl;
+        return false;
       }
 
       int payload_length = header[2];
@@ -343,7 +343,6 @@ class Module
     unsigned int _baudrate;
     unsigned int _port;
     clock_t _timeout;
-    bool _enable_blocking;
 };
 
 }
